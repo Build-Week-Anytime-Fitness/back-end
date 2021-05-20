@@ -10,6 +10,7 @@ exports.up = async function (knex) {
     })
 
 
+
     await knex.schema.createTable('fitnessClasses', (table) => {
         table.increments('id')
         table.string('className', 255).notNullable().unique()
@@ -22,6 +23,7 @@ exports.up = async function (knex) {
         table.integer('maxClassSize').unsigned()
         table.integer('instructor_id').unsigned().references('id').inTable('users').onUpdate('CASCADE').onDelete('CASCADE')
     })
+
 
     await knex.schema.createTable('classes_users', (table) => {
         table.integer('class_id').unsigned().references('id').inTable('fitnessClasses').onUpdate('CASCADE').onDelete('CASCADE')
