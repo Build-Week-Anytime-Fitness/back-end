@@ -33,7 +33,7 @@ const checkLoginPayload = (req, res, next) => {
 }
 
 //Checks if the certain fields are provided as part of the request body while registering the user
-const checkRegisterPayload = (req, res, next) => {
+const checkRegisterPayload = async (req, res, next) => {
     if (!req.body.name) {
         return res.status(400).json({
             message: "user's name is missing",

@@ -9,8 +9,8 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-server.use('/api', usersRouter);
 server.use('/api', welcomeRouter);
+server.use('/api', usersRouter);
 
 server.use((err, req, res, next) => {
     return res.status(err.status || 500).json({

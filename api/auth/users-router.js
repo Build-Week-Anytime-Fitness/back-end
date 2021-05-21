@@ -1,3 +1,4 @@
+
 const router = require('express').Router();
 const { checkEmailExists, checkLoginPayload, checkRegisterPayload, checkIfUnique } = require('./auth-middlewares.js');
 
@@ -12,7 +13,7 @@ router.post('/register', checkRegisterPayload, checkIfUnique, async (req, res, n
         const name = req.body.name
         const password = req.body.password
         const email = req.body.email
-        const isAdult = req.body.isAdult
+        const isAdult = req.body.isAdult || true
         const isInstructor = req.body.isInstructor
 
         const newUser = await Users.add({
@@ -20,7 +21,7 @@ router.post('/register', checkRegisterPayload, checkIfUnique, async (req, res, n
             email,
             isAdult,
             isInstructor,
-            password: await bcrypt.hash(password, 14) // 2 ^ 24 rounds of hashing
+            password: await bcrypt.hash(password, 14), // 2 ^ 24 rounds of hashing
         })
 
         res.status(201).json(newUser)
