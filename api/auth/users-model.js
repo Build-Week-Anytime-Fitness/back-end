@@ -5,20 +5,20 @@ function find() {
 }
 
 function findByEmail(email) {
-    return db("users as u")
+    return db("users")
         .where("email", email)
-        .select("u.id", "u.email", "u.name", "u.password", "u.isInstructor")
+        .select("id", "email", "name", "password", "is_instructor")
 }
 
 function findById(id) {
-    return db("users as u")
+    return db("users")
         .where("id", id)
-        .select("u.id", "u.email", "u.name", "u.password", "u.isInstructor").first()
+        .select("id", "email", "name", "password", "is_instructor").first()
 }
 
-async function add(newUser) {
-    const [id] = await db("users as u").insert(newUser)
-    return findById(id)
+async function add(user) {
+    const id = await db("users as u").insert(user);
+    return id;
 }
 
 module.exports = {

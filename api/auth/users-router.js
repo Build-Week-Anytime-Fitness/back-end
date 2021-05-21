@@ -1,4 +1,3 @@
-
 const router = require('express').Router();
 const { checkEmailExists, checkLoginPayload, checkRegisterPayload, checkIfUnique } = require('./auth-middlewares.js');
 
@@ -10,24 +9,22 @@ const { JWT_SECRET } = require("./secrets.js")
 
 router.post('/register', checkRegisterPayload, checkIfUnique, async (req, res, next) => {
     try {
-        const name = req.body.name
-        const password = req.body.password
-        const email = req.body.email
-        const isAdult = req.body.isAdult || true
-        const isInstructor = req.body.isInstructor
+        let mutatedUser = {
+            name: req.body.name,
+            email: req.body.email,
+            is_adult: req.body.is_adult || true,
+            is_instructor: req.body.is_instructor,
+            password: await bcrypt.hash(req.body.password, 14),
+        }
 
-        const newUser = await Users.add({
-            name,
-            email,
-            isAdult,
-            isInstructor,
-            password: await bcrypt.hash(password, 14), // 2 ^ 24 rounds of hashing
-        })
+        let newUser = await Users.add(mutatedUser);
+        console.log(newUser)
+        return res.status(201).json({
+            message: 'User successfully registered',
+        });
 
-        res.status(201).json(newUser)
-
-    } catch (err) {
-        next(err)
+    } catch (e) {
+        next(e);
     }
 })
 

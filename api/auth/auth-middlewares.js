@@ -42,7 +42,7 @@ const checkRegisterPayload = async (req, res, next) => {
         return res.status(400).json({
             message: "email and password need to be provided",
         })
-    } else if (typeof (req.body.isInstructor) !== 'boolean') {
+    } else if (typeof (req.body.is_instructor) !== 'boolean') {
         return res.status(400).json({
             message: "specify a bool value to specify if the user is an instructor",
         })
