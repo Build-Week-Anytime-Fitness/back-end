@@ -4,8 +4,8 @@
   "description": "Fitness App",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
     "start": "node index.js",
+    "server": "nodemon index.js",
     "test": "jest --watch"
   },
   "jest": {
