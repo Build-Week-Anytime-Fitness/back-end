@@ -10,6 +10,7 @@ if (process.env.DATABASE_URL) {
 */
 
 
+
 const sharedConfig = {
   client: 'pg',
   migrations: { directory: './data/migrations' },
@@ -25,7 +26,7 @@ module.exports = {
 
   production: {
     ...sharedConfig,
-    connection: process.env.DATABASE_URL,
+    connection: process.env.DATABASE_URL, // Ensured
     pool: { min: 2, max: 10 }
   }
 

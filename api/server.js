@@ -9,7 +9,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-server.use('/api', welcomeRouter);
+server.use('/', welcomeRouter);
 server.use('/api', usersRouter);
 
 server.use((err, req, res, next) => {
