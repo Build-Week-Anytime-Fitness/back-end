@@ -37,13 +37,17 @@ router.post('/login', checkLoginPayload, checkEmailExists, async (req, res, next
         const payload = {
             subject: req.user.id,
             email: req.user.email,
+            is_instructor: req.user.is_instructor,
         }
 
         const token = jwt.sign(payload, JWT_SECRET, options)
 
         res.status(200).json({
             message: `welcome, ${req.user.name}`,
+            id: req.user.id,
+            email: req.user.email,
             token: token,
+            is_instructor: req.user.is_instructor,
         })
 
     } catch (err) {

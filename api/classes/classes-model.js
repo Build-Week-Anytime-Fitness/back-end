@@ -12,8 +12,8 @@ function findByName(name) {
 
 function findById(id) {
     return db("classes")
-        .where("id", id)
-        .select("*").first()
+        .where("instructor_id", id)
+        .select("*")
 }
 
 //Instructor ID must also be passed by the instructor user account
