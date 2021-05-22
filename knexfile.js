@@ -24,7 +24,7 @@ module.exports = {
 
   production: {
     ...sharedConfig,
-    connection: process.env.DATABASE_URL, // Ensured
+    connection: process.env.DATABASE_URL,
     pool: { min: 2, max: 10 }
   }
 

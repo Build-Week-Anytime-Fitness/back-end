@@ -10,7 +10,13 @@ function findByName(name) {
         .select("*")
 }
 
-function findById(id) {
+function findByClassId(id) {
+    return db('classes')
+        .where('id', id)
+        .select("*")
+}
+
+function findByInstructorId(id) {
     return db("classes")
         .where("instructor_id", id)
         .select("*")
@@ -22,9 +28,16 @@ async function add(newClass) {
     return id
 }
 
+async function remove(id) {
+    const response = db('classes').where('id', id).del();
+    return response
+}
+
 module.exports = {
     find,
     findByName,
-    findById,
+    findByInstructorId,
+    findByClassId,
     add,
+    remove
 }

@@ -1,5 +1,6 @@
 const { JWT_SECRET } = require("../auth/secrets.js")
 const jwt = require("jsonwebtoken")
+const Classes = require("./classes-model");
 
 const restrictAccess = async (req, res, next) => {
     try {
@@ -75,8 +76,27 @@ const checkClassPayload = (req, res, next) => {
     }
 }
 
+const checkClassID = async (req, res, next) => {
+    try {
+        const classInstance = await Classes.findByClassId(req.params.id).first()
+        console.log(classInstance)
+        if (classInstance) {
+            req.classInstance = classInstance;
+            next()
+        } else {
+            return res.status(404).json({
+                message: "This fitness class does not exist!!!",
+            })
+        }
+
+    } catch (err) {
+        next(err)
+    }
+}
+
 
 module.exports = {
     restrictAccess,
     checkClassPayload,
+    checkClassID,
 }
