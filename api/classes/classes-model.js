@@ -6,7 +6,7 @@ function find() {
 
 function findByName(name) {
     return db("classes")
-        .where("className", name)
+        .where("class_name", name)
         .select("*")
 }
 
@@ -16,10 +16,10 @@ function findById(id) {
         .select("*").first()
 }
 
-//Instructor ID must also be passed by the client
+//Instructor ID must also be passed by the instructor user account
 async function add(newClass) {
-    const [id] = await db("classes").insert(newClass);
-    return findById(id)
+    const id = await db("classes").insert(newClass);
+    return id
 }
 
 module.exports = {
