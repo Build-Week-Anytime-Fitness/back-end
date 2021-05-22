@@ -1,5 +1,5 @@
 // Update with your config settings.
-require('dotenv').config({ path: './.env' });
+require('dotenv').config();
 
 const pg = require('pg');
 
@@ -8,6 +8,7 @@ if (process.env.DATABASE_URL) {
   pg.defaults.ssl = { rejectUnauthorized: false };
 }
 */
+
 
 const sharedConfig = {
   client: 'pg',
@@ -19,22 +20,12 @@ const sharedConfig = {
 module.exports = {
   development: {
     ...sharedConfig,
-    connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-    }
+    connection: process.env.DEV_DATABASE_URL
   },
 
   production: {
     ...sharedConfig,
-    connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-    },
+    connection: process.env.DATABASE_URL,
     pool: { min: 2, max: 10 }
   }
 

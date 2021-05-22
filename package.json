@@ -6,6 +6,13 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run",
+    "migrateh": "heroku run knex migrate:latest -a amazing-fitness-app",
+    "rollbackh": "herok run knex migrate:rollback -a amazing-fitness-app",
+    "databaseh": "heroku pg:sql -a amazing-fitness-app",
+    "seedh": "heroku run knex seed:run -a amazing-fitness-app",
     "test": "jest --watch"
   },
   "jest": {
