@@ -76,6 +76,23 @@ const checkClassPayload = (req, res, next) => {
     }
 }
 
+
+const checkNameUnique = async (req, res, next) => {
+    try {
+        const foundClass = await Classes.findByName(req.body.class_name)
+        if (foundClass) {
+            return res.status(400).json({
+                message: "Select a different class name!"
+            })
+        } else {
+            next()
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
+
 const checkClassID_params = async (req, res, next) => {
     try {
         const classInstance = await Classes.findByClassId(req.params.id).first()
@@ -98,5 +115,6 @@ const checkClassID_params = async (req, res, next) => {
 module.exports = {
     restrictAccess,
     checkClassPayload,
+    checkNameUnique,
     checkClassID_params
 }

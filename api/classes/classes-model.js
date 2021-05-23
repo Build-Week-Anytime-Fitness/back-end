@@ -8,6 +8,7 @@ function findByName(name) {
     return db("classes")
         .where("class_name", name)
         .select("*")
+        .first()
 }
 
 function findByClassId(id) {

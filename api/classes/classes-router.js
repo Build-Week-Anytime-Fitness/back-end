@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Classes = require("./classes-model");
-const { restrictAccess, checkClassPayload, checkClassID_params } = require("./classes-middlewares.js");
+const { restrictAccess, checkClassPayload, checkNameUnique, checkClassID_params } = require("./classes-middlewares.js");
 
 
 //This will get all the classes currently on offer. 
@@ -25,7 +25,7 @@ router.get('/classes/:instId', restrictAccess, async (req, res, next) => {
     }
 })
 
-router.post('/classes', restrictAccess, checkClassPayload, async (req, res, next) => {
+router.post('/classes', restrictAccess, checkClassPayload, checkNameUnique, async (req, res, next) => {
     try {
         //Checks if the user is an instructor or not before allowing them to add classes. 
         //Instructor can only add classes for himself and not for anybody else
@@ -72,9 +72,9 @@ router.delete('/classes/:id', restrictAccess, checkClassID_params, async (req, r
     }
 })
 
-router.put('/classes/:id', checkClassPayload, restrictAccess, checkClassID_params, async (req, res, next) => {
+router.put('/classes/:id', checkClassPayload, restrictAccess, checkNameUnique, checkClassID_params, async (req, res, next) => {
     try {
-        if (req.token.is_instructor === true && req.token.subject === req.body.instructor_id) {
+        if (req.token.is_instructor === true && req.token.subject === req.body.instructor_id && req.classInstance.instructor_id === req.body.instructor_id) {
             await Classes.updateClass(req.params.id, req.body)
             return res.status(200).json({
                 message: 'class successfully updated!'
