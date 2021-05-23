@@ -9,8 +9,6 @@ exports.up = async function (knex) {
         table.boolean('is_instructor').notNull()
     })
 
-
-
     await knex.schema.createTable('classes', (table) => {
         table.increments('id')
         table.string('class_name', 255).notNullable().unique()
@@ -20,6 +18,7 @@ exports.up = async function (knex) {
         table.integer('duration').unsigned().notNullable()
         table.string('intensity', 255).notNullable()
         table.string('location', 255)
+        table.integer('number_of_students').unsigned().defaultTo(0)
         table.integer('max_class_size').unsigned().notNull()
         table.integer('instructor_id').unsigned().references('id').inTable('users').onUpdate('CASCADE').onDelete('CASCADE')
     })
