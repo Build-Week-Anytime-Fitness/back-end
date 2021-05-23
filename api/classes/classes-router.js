@@ -83,9 +83,13 @@ router.put('/classes/:id', checkClassPayload, restrictAccess, checkClassID_param
             return res.status(400).json({
                 message: "You are not an instructor!!!"
             })
-        } else if (req.token.subject !== req.body.instructor_id || req.classInstance.instructor_id !== req.body.instructor_id) {
+        } else if (req.token.subject !== req.body.instructor_id) {
             return res.status(400).json({
-                message: "You cannot update someone else's class!!!"
+                message: "Check the instructor_id!!!"
+            })
+        } else if (req.classInstance.instructor_id !== req.body.instructor_id) {
+            return res.status(400).json({
+                message: "Class does not belong to you!"
             })
         }
     } catch (err) {
