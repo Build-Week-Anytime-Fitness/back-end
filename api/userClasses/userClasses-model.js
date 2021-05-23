@@ -26,7 +26,13 @@ async function signUpClasses(clientID_classIDObj) {
     return id;
 }
 
+async function dropClasses(id) {
+    const removed = await db('classes_users as cus').where('class_id', id).del();
+    return removed;
+}
+
 module.exports = {
     findByClientID,
-    signUpClasses
+    signUpClasses,
+    dropClasses,
 }

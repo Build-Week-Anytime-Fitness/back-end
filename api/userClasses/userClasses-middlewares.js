@@ -2,6 +2,7 @@ const ClientClasses = require("./userClasses-model.js");
 const Classes = require("../classes/classes-model.js")
 
 const checkSignupPayload = (req, res, next) => {
+    console.log(req.body.class_id)
     try {
         if (!req.body.class_id) {
             return res.status(400).json({
@@ -15,7 +16,7 @@ const checkSignupPayload = (req, res, next) => {
     }
 }
 
-const checkClassID = async (req, res, next) => {
+const checkClassID_bod = async (req, res, next) => {
     try {
         const classInstance = await Classes.findByClassId(req.body.class_id).first()
         console.log(classInstance)
@@ -50,9 +51,30 @@ const checkAlreadySignup = async (req, res, next) => {
     }
 }
 
+const checkEnrollment = async (req, res, next) => {
+    try {
+        const allClientClasses = await ClientClasses.findByClientID(req.token.subject)
+        const foundClass = allClientClasses.find(element => element.class_id === parseInt(req.params.id))
+        console.log(foundClass)
+
+        if (!foundClass) {
+            return res.status(400).json({
+                message: `You never signed up for this class!!!`,
+            })
+
+        } else {
+            next()
+        }
+
+    } catch (err) {
+        next(err)
+    }
+}
+
 
 module.exports = {
     checkSignupPayload,
     checkAlreadySignup,
-    checkClassID
+    checkClassID_bod,
+    checkEnrollment
 }

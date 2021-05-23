@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Classes = require("./classes-model");
-const { restrictAccess, checkClassPayload, checkClassID } = require("./classes-middlewares.js");
+const { restrictAccess, checkClassPayload, checkClassID_params } = require("./classes-middlewares.js");
 
 
 //This will get all the classes currently on offer. 
@@ -50,7 +50,7 @@ router.post('/classes', restrictAccess, checkClassPayload, async (req, res, next
 })
 
 
-router.delete('/classes/:id', restrictAccess, checkClassID, async (req, res, next) => {
+router.delete('/classes/:id', restrictAccess, checkClassID_params, async (req, res, next) => {
     try {
         if (req.token.is_instructor === true && req.token.subject === req.classInstance.instructor_id) {
             await Classes.remove(req.params.id)
@@ -72,7 +72,7 @@ router.delete('/classes/:id', restrictAccess, checkClassID, async (req, res, nex
     }
 })
 
-router.put('/classes/:id', checkClassPayload, restrictAccess, checkClassID, async (req, res, next) => {
+router.put('/classes/:id', checkClassPayload, restrictAccess, checkClassID_params, async (req, res, next) => {
     try {
         if (req.token.is_instructor === true && req.token.subject === req.body.instructor_id) {
             await Classes.updateClass(req.params.id, req.body)

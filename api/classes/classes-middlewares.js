@@ -76,7 +76,7 @@ const checkClassPayload = (req, res, next) => {
     }
 }
 
-const checkClassID = async (req, res, next) => {
+const checkClassID_params = async (req, res, next) => {
     try {
         const classInstance = await Classes.findByClassId(req.params.id).first()
         console.log(classInstance)
@@ -98,5 +98,5 @@ const checkClassID = async (req, res, next) => {
 module.exports = {
     restrictAccess,
     checkClassPayload,
-    checkClassID,
+    checkClassID_params
 }
