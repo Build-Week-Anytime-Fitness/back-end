@@ -23,6 +23,7 @@ router.get('/clientclasses/:id', restrictAccess, async (req, res, next) => {
     }
 })
 
+//This enables a client to sign up for a class which he never signed up for
 router.post('/clientclasses', restrictAccess, checkSignupPayload, checkClassID_bod, checkAlreadySignup, async (req, res, next) => {
     try {
         const response = await ClientClasses.signUpClasses(
@@ -50,6 +51,7 @@ router.post('/clientclasses', restrictAccess, checkSignupPayload, checkClassID_b
     }
 })
 
+//this endpoint enables a client to unenroll from an already signed up class
 router.delete('/clientclasses/:id', restrictAccess, checkClassID_params, checkEnrollment, async (req, res, next) => {
     try {
         const response = await ClientClasses.dropClasses(req.params.id)
