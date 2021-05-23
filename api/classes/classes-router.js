@@ -50,7 +50,7 @@ router.post('/classes', restrictAccess, checkClassPayload, async (req, res, next
 })
 
 
-router.delete('/classes/:id', checkClassID, restrictAccess, async (req, res, next) => {
+router.delete('/classes/:id', restrictAccess, checkClassID, async (req, res, next) => {
     try {
         if (req.token.is_instructor === true && req.token.subject === req.classInstance.instructor_id) {
             await Classes.remove(req.params.id)
@@ -65,6 +65,27 @@ router.delete('/classes/:id', checkClassID, restrictAccess, async (req, res, nex
         } else if (req.token.subject !== req.body.instructor_id) {
             return res.status(400).json({
                 message: "You cannot delete someone else's class!!!"
+            })
+        }
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.put('/classes/:id', checkClassPayload, restrictAccess, checkClassID, async (req, res, next) => {
+    try {
+        if (req.token.is_instructor === true && req.token.subject === req.body.instructor_id) {
+            await Classes.updateClass(req.params.id, req.body)
+            return res.status(200).json({
+                message: 'class successfully updated!'
+            })
+        } else if (req.token.is_instructor === false) {
+            return res.status(400).json({
+                message: "You are not an instructor!!!"
+            })
+        } else if (req.token.subject !== req.body.instructor_id) {
+            return res.status(400).json({
+                message: "You cannot update someone else's class!!!"
             })
         }
     } catch (err) {

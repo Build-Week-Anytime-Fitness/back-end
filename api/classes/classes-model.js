@@ -1,7 +1,7 @@
 const db = require("../../data/dbConfig.js")
 
 function find() {
-    return db("classes")
+    return db("classes").orderBy('id')
 }
 
 function findByName(name) {
@@ -33,11 +33,17 @@ async function remove(id) {
     return response
 }
 
+async function updateClass(id, mutatedClass) {
+    const countID = db('classes').where('id', id).update(mutatedClass)
+    return countID;
+}
+
 module.exports = {
     find,
     findByName,
     findByInstructorId,
     findByClassId,
     add,
-    remove
+    remove,
+    updateClass,
 }

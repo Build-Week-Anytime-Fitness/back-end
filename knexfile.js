@@ -7,8 +7,6 @@ if (process.env.DATABASE_URL) {
   pg.defaults.ssl = { rejectUnauthorized: false };
 }
 
-
-
 const sharedConfig = {
   client: 'pg',
   migrations: { directory: './data/migrations' },
