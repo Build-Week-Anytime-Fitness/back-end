@@ -146,7 +146,7 @@
     }
  ```
 
- ### Expected Response after successfull udpating of class information
+ ### Expected Response after successfully updating class information
 
  ```
     {
@@ -155,7 +155,7 @@
 
  ```
 
- ### Expected Response after successfuly deletion of class information
+ ### Expected Response after successfull deletion of class information
 
  ```
  {
