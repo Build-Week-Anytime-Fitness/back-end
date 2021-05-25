@@ -18,7 +18,7 @@ const checkSignupPayload = (req, res, next) => {
 
 const checkClassID_bod = async (req, res, next) => {
     try {
-        const classInstance = await Classes.findByClassId(req.body.class_id).first()
+        const classInstance = await Classes.findByClassId(req.body.class_id)
         console.log(classInstance)
         if (classInstance) {
             req.classInstance = classInstance;

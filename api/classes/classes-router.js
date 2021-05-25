@@ -30,9 +30,11 @@ router.post('/classes', restrictAccess, checkClassPayload, checkNameUnique, asyn
         //Checks if the user is an instructor or not before allowing them to add classes. 
         //Instructor can only add classes for himself and not for anybody else
         if (req.token.is_instructor === true && req.token.subject === req.body.instructor_id) {
-            const response = await Classes.add(req.body)
+            const newClass = await Classes.add(req.body)
+            console.log(newClass)
+            console.log(newClass.class_name)
             res.status(200).json({
-                message: "You just added a bit of goodness to this world!"
+                message: `You just added a bit of goodness to this world with your newClass: ${newClass.class_name}!`
             })
         } else if (req.token.is_instructor === false) {
             return res.status(400).json({
@@ -75,9 +77,9 @@ router.delete('/classes/:id', restrictAccess, checkClassID_params, async (req, r
 router.put('/classes/:id', checkClassPayload, restrictAccess, checkNameUnique, checkClassID_params, async (req, res, next) => {
     try {
         if (req.token.is_instructor === true && req.token.subject === req.body.instructor_id && req.classInstance.instructor_id === req.body.instructor_id) {
-            await Classes.updateClass(req.params.id, req.body)
+            const changedClass = await Classes.updateClass(req.params.id, req.body)
             return res.status(200).json({
-                message: 'class successfully updated!'
+                message: `class: ${changedClass.class_name} with id: ${changedClass.id} successfully updated!`
             })
         } else if (req.token.is_instructor === false) {
             return res.status(400).json({

@@ -95,7 +95,7 @@ const checkNameUnique = async (req, res, next) => {
 
 const checkClassID_params = async (req, res, next) => {
     try {
-        const classInstance = await Classes.findByClassId(req.params.id).first()
+        const classInstance = await Classes.findByClassId(req.params.id)
         console.log(classInstance)
         if (classInstance) {
             req.classInstance = classInstance;

@@ -19,8 +19,9 @@ router.post('/register', checkRegisterPayload, checkIfUnique, async (req, res, n
 
         let newUser = await Users.add(mutatedUser);
         console.log(newUser)
+
         return res.status(201).json({
-            message: 'User successfully registered',
+            message: `User ${newUser.name} successfully registered`,
         });
 
     } catch (e) {
