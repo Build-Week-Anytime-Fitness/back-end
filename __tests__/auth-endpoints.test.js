@@ -16,12 +16,14 @@ test('sanity', () => {
     expect(true).toBe(true)
 })
 
-describe("test login and register endpoints", () => {
+describe("test login, register, instructorClasses and client classes endpoints", () => {
+
     it("checks that name, email, password and is_instructor value are provided while registering ", async () => {
         const res = await supertest(server).post("/api/register").send({ name: 'Batman', email: 'bt@dc.org', password: 'password' })
         expect(res.statusCode).toBe(400)
         expect(res.body.message).toBe('specify a bool value to specify if the user is an instructor')
     })
+
 
     it("checks that the user gets a welcome message upon successful login", async () => {
         const res = await supertest(server).post("/api/login").send({ email: 'ca@marvel.org', password: 'password' })
@@ -29,11 +31,13 @@ describe("test login and register endpoints", () => {
         expect(res.body.message).toBe('welcome, Captain America')
     })
 
+
     it("checks that the user gets a account does not exist message if the account does not exist yet", async () => {
         const res = await supertest(server).post("/api/login").send({ email: 'bt@dc.org', password: 'password' })
         expect(res.statusCode).toBe(401)
         expect(res.body.message).toBe('This account does not exist')
     })
+
 
     it("checks that the user gets a success message upon successful registeration", async () => {
         const res = await supertest(server).post("/api/register").send({ name: "Batman", email: 'bt@dc.org', password: 'password', is_instructor: true })
@@ -41,9 +45,19 @@ describe("test login and register endpoints", () => {
         expect(res.body.message).toBe('User Batman successfully registered')
     })
 
+
     it("checks that the user cannot register with email which already exists", async () => {
         const res = await supertest(server).post("/api/register").send({ name: 'Winter Soldier', email: 'ca@marvel.org', password: 'password', is_instructor: false })
         expect(res.statusCode).toBe(400)
         expect(res.body.message).toBe('email already taken')
+    })
+
+    it("checks that all available classes are obtained after successfull login", async () => {
+
+        const { body: { token } } = await supertest(server).post("/api/login").send({ email: 'ca@marvel.org', password: 'password' })
+        expect(token).toBeDefined()
+        const res = await supertest(server).get("/api/classes").set('authorization', token)
+        expect(res.body.length).toBe(5)
+
     })
 })
