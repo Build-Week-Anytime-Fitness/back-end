@@ -74,6 +74,8 @@ router.delete('/classes/:id', restrictAccess, checkClassID_params, async (req, r
     }
 })
 
+
+
 router.put('/classes/:id', checkClassPayload, restrictAccess, checkClassID_params, async (req, res, next) => {
     try {
         if (req.token.is_instructor === true && req.token.subject === req.body.instructor_id && req.classInstance.instructor_id === req.body.instructor_id) {
